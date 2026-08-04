@@ -1,0 +1,226 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 320px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #0f172a;
+  color: #f8fafc;
+  overflow: hidden;
+}
+.popup-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.hidden { display: none !important; }
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+.logo-highlight {
+  color: #818cf8;
+}
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  color: #94a3b8;
+}
+.status-pill .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+
+.message-card {
+  text-align: center;
+  padding: 24px 12px;
+}
+.message-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+.message-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+.message-sub {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+.message-sub strong {
+  color: #a5b4fc;
+}
+
+
+.active-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(16, 185, 129, 0.06);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  border-radius: 10px;
+  font-size: 11px;
+  color: #6ee7b7;
+  font-weight: 600;
+}
+.active-indicator .pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+}
+
+
+.footer {
+  display: flex;
+  gap: 8px;
+}
+.btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-primary {
+  background: #6366f1;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #5558e6;
+}
+.btn-secondary {
+  background: rgba(255,255,255,0.06);
+  color: #cbd5e1;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+
+.meta-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.pill {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.08);
+  color: #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.pill.active {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+
+.section {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+}
+.section-header.space-between {
+  justify-content: space-between;
+}
+.section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f8fafc;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+.honesty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 6px;
+}
+.pill-metric {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pill-metric.flagged {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+}
+
+
+.compact-btn {
+  flex: none;
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+
+.empty-state {
+  align-items: center;
+  text-align: center;
+  padding: 16px 8px;
+}
+.empty-state .icon.large {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+.empty-text {
+  font-size: 12px;
+  color: #94a3b8;
+}
