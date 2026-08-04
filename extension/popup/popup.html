@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlgoMind Popup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    
+    <header class="header">
+      <span class="logo-text">Algo<span class="logo-highlight">Mind</span></span>
+      <div class="status-pill">
+        <span class="dot"></span> Extension Active
+      </div>
+    </header>
+
+    
+    <div id="on-problem-message" style="display: none;">
+      <div class="active-indicator">
+        <span class="pulse-dot"></span>
+        Tracking active on this page
+      </div>
+      <div class="message-card">
+        <div class="message-icon">🎯</div>
+        <p class="message-title">AlgoMind is tracking this problem</p>
+        <p class="message-sub">Use the <strong>floating widget</strong> on the bottom-right of the page to view your honesty score, revision schedule, and save your intuition notes.</p>
+      </div>
+    </div>
+
+    
+    <div id="off-platform-message" style="display: none;">
+      <div class="message-card">
+        <div class="message-icon">🧩</div>
+        <p class="message-title">AlgoMind Study Companion</p>
+        <p class="message-sub">Open a problem on <strong>LeetCode</strong> or <strong>GeeksforGeeks</strong> to auto-track your solving session and active recall.</p>
+      </div>
+    </div>
+
+    
+    <footer class="footer">
+      <button class="btn btn-primary" id="open-dashboard">Open Dashboard</button>
+      <button class="btn btn-secondary" id="close-popup">Close</button>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

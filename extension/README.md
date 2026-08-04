@@ -1,0 +1,2 @@
+# -algomind-extension
+algomind-extension
