@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AlgoMind - DSA Revision Tracker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Automatically track solved coding problems and schedule spaced repetition revisions to master DSA.",
   "permissions": [
     "storage",
