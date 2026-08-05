@@ -222,55 +222,58 @@ function showWidgetPasteWarning() {
   const card = document.querySelector('.algomind-active-card');
   if (!card) return;
 
-  card.style.position = 'relative';
+  const panel = document.getElementById('algomind-panel');
+  const isLight = panel && panel.classList.contains('algomind-light-theme');
 
-  
   Array.from(card.children).forEach(child => {
     if (child.id !== 'algomind-paste-overlay') {
       child.style.visibility = 'hidden';
     }
   });
 
-  
   let overlay = document.getElementById('algomind-paste-overlay');
   if (overlay) overlay.remove();
 
   overlay = document.createElement('div');
   overlay.id = 'algomind-paste-overlay';
+
+  const bgCss = isLight
+    ? 'background: #fffbebf5 !important; border: 1px solid #f59e0b !important; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15) !important;'
+    : 'background: rgba(15, 23, 42, 0.96) !important; border: 1px solid rgba(245, 158, 11, 0.4) !important; box-shadow: 0 4px 14px rgba(0,0,0,0.4) !important;';
+
+  const titleColor = isLight ? '#b45309' : '#fbbf24';
+  const descColor = isLight ? '#78350f' : '#e2e8f0';
+
   overlay.style.cssText = `
     position: absolute !important; inset: 0 !important; z-index: 10 !important;
     display: flex !important; flex-direction: column !important;
     align-items: center !important; justify-content: center !important;
     gap: 6px !important;
     text-align: center !important;
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.08), rgba(245, 158, 11, 0.04)) !important;
-    border: 1px solid rgba(251, 191, 36, 0.25) !important;
+    ${bgCss}
     border-radius: 12px !important;
     opacity: 0 !important; transition: opacity 0.35s ease !important;
     line-height: 1.5 !important; padding: 16px 20px !important;
-    backdrop-filter: blur(2px) !important;
+    backdrop-filter: blur(4px) !important;
   `;
   overlay.innerHTML = `
-    <span style="position:absolute !important;top:6px !important;right:8px !important;cursor:pointer !important;font-size:16px !important;color:#d97706 !important;opacity:0.6 !important;transition:all 0.2s !important;line-height:1 !important;pointer-events:auto !important;width:20px !important;height:20px !important;display:flex !important;align-items:center !important;justify-content:center !important;border-radius:50% !important;" id="algomind-paste-close" title="Dismiss">✕</span>
-    <span style="font-size:24px !important;line-height:1 !important;">🛡️</span>
-    <span style="font-size:12px !important;font-weight:700 !important;color:#b45309 !important;letter-spacing:0.02em !important;">Code Paste Detected</span>
-    <span style="font-size:10px !important;font-weight:500 !important;color:#92400e !important;opacity:0.8 !important;">Please type the code yourself to build muscle memory.</span>
+    <span style="position:absolute !important;top:6px !important;right:8px !important;cursor:pointer !important;font-size:16px !important;color:${titleColor} !important;opacity:0.8 !important;transition:all 0.2s !important;line-height:1 !important;pointer-events:auto !important;width:20px !important;height:20px !important;display:flex !important;align-items:center !important;justify-content:center !important;border-radius:50% !important;" id="algomind-paste-close" title="Dismiss">✕</span>
+    <span style="font-size:26px !important;line-height:1 !important;">🛡️</span>
+    <span style="font-size:13px !important;font-weight:800 !important;color:${titleColor} !important;letter-spacing:0.02em !important;">Code Paste Detected</span>
+    <span style="font-size:11px !important;font-weight:600 !important;color:${descColor} !important;line-height:1.4 !important;">Please type the code yourself to build muscle memory.</span>
   `;
   card.appendChild(overlay);
 
-  
   const closeBtn = document.getElementById('algomind-paste-close');
   if (closeBtn) {
     closeBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       hideWidgetPasteWarning();
     });
-    
     closeBtn.addEventListener('mouseenter', () => { closeBtn.style.setProperty('opacity', '1', 'important'); });
-    closeBtn.addEventListener('mouseleave', () => { closeBtn.style.setProperty('opacity', '0.6', 'important'); });
+    closeBtn.addEventListener('mouseleave', () => { closeBtn.style.setProperty('opacity', '0.8', 'important'); });
   }
 
-  
   requestAnimationFrame(() => { overlay.style.opacity = '1'; });
 }
 
@@ -1219,8 +1222,8 @@ const injectStyles = () => {
     }
 
     #algomind-panel.algomind-light-theme .algomind-section-title {
-      color: #334155 !important;
-      font-weight: 700 !important;
+      color: #000000 !important;
+      font-weight: 800 !important;
     }
 
     #algomind-panel.algomind-light-theme .algomind-active-card {
@@ -1312,8 +1315,8 @@ const injectStyles = () => {
     }
 
     #algomind-panel.algomind-light-theme .algomind-honesty-item .algomind-honesty-lbl {
-      color: #334155 !important;
-      font-weight: 600 !important;
+      color: #000000 !important;
+      font-weight: 700 !important;
     }
 
     #algomind-panel.algomind-light-theme .algomind-honesty-item .algomind-info-icon {
@@ -2768,6 +2771,10 @@ const attachEventMonitors = () => {
 
     if (target.closest('#algomind-root')) return;
 
+    const platform = getPlatform(window.location.href);
+    const config = (platform && window.ALGO_SELECTORS) ? window.ALGO_SELECTORS[platform] : null;
+    const text = target.innerText ? target.innerText.trim().toLowerCase() : '';
+
     if (isSubmitButton(target)) {
       log('[AlgoMind Submission Engine] Submit button click detected!');
       registerSubmitIntent('submit_button_click');
@@ -2794,12 +2801,13 @@ const attachEventMonitors = () => {
     
     const isClickable = target.tagName === 'BUTTON' || target.tagName === 'A' || target.tagName === 'SPAN' || target.tagName === 'DIV' || target.getAttribute('role') === 'button';
     
+    const matchesHintSelector = config && config.hintBtn ? !!target.closest(config.hintBtn) : false;
     if (isClickable && (
-      target.closest(config.hintBtn) || 
-      text === 'hint' || 
-      text === 'show hint' || 
-      text === 'hints' ||
-      text.includes('hint-btn')
+      matchesHintSelector || 
+      text.includes('hint') ||
+      target.closest('[class*="hint"]') ||
+      target.closest('[id*="hint"]') ||
+      target.closest('[data-cy*="hint"]')
     )) {
       if (!hintsUsed) {
         log('[AlgoMind Scraper] Hint usage detected!');
@@ -2823,8 +2831,9 @@ const attachEventMonitors = () => {
     }
 
     
+    const matchesSolutionSelector = config && config.solutionBtn ? !!target.closest(config.solutionBtn) : false;
     if (isClickable && (
-      target.closest(config.solutionBtn) || 
+      matchesSolutionSelector || 
       text === 'editorial' || 
       text === 'solution' || 
       text === 'solutions' ||
@@ -2834,7 +2843,9 @@ const attachEventMonitors = () => {
       text === 'discussions' ||
       text.includes('comment') ||
       text.includes('discussion') ||
-      text.includes('editorial-btn')
+      text.includes('editorial-btn') ||
+      target.closest('[class*="editorial"]') ||
+      target.closest('[class*="solution"]')
     )) {
       if (!solutionClicked) {
         log('[AlgoMind Scraper] Solution lookup detected!');
@@ -2984,7 +2995,8 @@ const checkAndShowDailyCoachWelcome = () => {
       'solvedProblemsCount', 
       'user', 
       'username',
-      'currentStreak'
+      'currentStreak',
+      'theme'
     ], (res) => {
       if (chrome.runtime.lastError) return;
 
@@ -2994,24 +3006,34 @@ const checkAndShowDailyCoachWelcome = () => {
         return;
       }
 
-      
       chrome.storage.local.set({ algomind_last_welcome_date: todayStr });
 
-      
       const queue = Array.isArray(res?.revisionQueue) ? res.revisionQueue : [];
-      const dueCount = queue.filter(p => p.status === 'Pending' || (p.nextRevisionDate && new Date(p.nextRevisionDate) <= new Date())).length;
+      const now = new Date();
+      const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+
+      const dueCount = queue.filter(p => {
+        if (p.status === 'Pending') return true;
+        if (p.status === 'Completed') return false;
+        if (!p.nextRevisionDate) return false;
+        const nextRev = new Date(p.nextRevisionDate);
+        return nextRev <= endOfToday;
+      }).length;
+
       const estimatedTime = Math.max(15, Math.min(60, (dueCount * 10) || 20));
       
       const displayName = res?.user?.username || res?.username || 'Coder';
       const streak = res?.user?.currentStreak || res?.currentStreak || 7;
       const readiness = Math.min(98, Math.max(70, 85 + (dueCount === 0 ? 3 : -dueCount)));
+      const isLight = res?.theme === 'light' || document.body.classList.contains('algomind-light-theme') || !!document.querySelector('#algomind-panel.algomind-light-theme');
 
       renderDailyCoachWelcomeModal({
         displayName,
         dueCount,
         estimatedTime,
         streak,
-        readiness
+        readiness,
+        isLight
       });
     });
   } catch (err) {
@@ -3019,144 +3041,195 @@ const checkAndShowDailyCoachWelcome = () => {
   }
 };
 
-const renderDailyCoachWelcomeModal = ({ displayName, dueCount, estimatedTime, streak, readiness }) => {
-  
+const renderDailyCoachWelcomeModal = ({ displayName, dueCount, estimatedTime, streak, readiness, isLight = false }) => {
   if (document.getElementById('algomind-daily-welcome-backdrop')) return;
 
-  
+  const hour = new Date().getHours();
+  const greetingTime = hour < 12 ? 'Good Morning' : hour < 17 ? 'Good Afternoon' : 'Good Evening';
+  const finishDate = new Date(Date.now() + estimatedTime * 60000);
+  const finishTimeStr = finishDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
   if (!document.getElementById('algomind-welcome-styles')) {
     const styleEl = document.createElement('style');
     styleEl.id = 'algomind-welcome-styles';
     styleEl.textContent = `
-      @keyframes algomindCursorBlink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0; }
-      }
-      .algomind-welcome-cursor {
-        display: inline-block;
-        margin-left: 2px;
-        color: #a78bfa;
-        font-weight: bold;
-        animation: algomindCursorBlink 0.9s infinite;
+      @keyframes algomindModalFadeIn {
+        from { opacity: 0; transform: translateY(18px) scale(0.96); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
       }
       @keyframes algomindPulseGlow {
-        0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
-        50% { box-shadow: 0 0 35px rgba(167, 139, 250, 0.7); }
+        0%, 100% { box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4); }
+        50% { box-shadow: 0 4px 30px rgba(124, 58, 237, 0.7); }
+      }
+      #algomind-daily-welcome-modal::-webkit-scrollbar {
+        width: 4px;
+      }
+      #algomind-daily-welcome-modal::-webkit-scrollbar-thumb {
+        background: rgba(99, 102, 241, 0.4);
+        border-radius: 4px;
+      }
+      .algomind-stat-hover-card {
+        transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease !important;
+      }
+      .algomind-stat-hover-card:hover {
+        transform: translateY(-3px) !important;
       }
     `;
     document.head.appendChild(styleEl);
   }
 
-  
   const backdrop = document.createElement('div');
   backdrop.id = 'algomind-daily-welcome-backdrop';
   backdrop.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 99999999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(6, 9, 16, 0.82);
-    backdrop-filter: blur(10px);
-    opacity: 0;
-    transition: opacity 0.35s ease;
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 99999999; display: flex; align-items: center; justify-content: center;
+    background: ${isLight ? 'rgba(241, 245, 249, 0.88)' : 'rgba(6, 9, 18, 0.85)'};
+    backdrop-filter: blur(12px); opacity: 0; transition: opacity 0.35s ease;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   `;
 
-  
   const modal = document.createElement('div');
   modal.id = 'algomind-daily-welcome-modal';
+
+  const modalBg = isLight
+    ? 'background: #ffffff !important; border: 1px solid #cbd5e1 !important; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12) !important; color: #0f172a !important;'
+    : 'background: linear-gradient(145deg, rgba(17, 24, 39, 0.98), rgba(11, 16, 32, 0.98)) !important; border: 1px solid rgba(99, 102, 241, 0.25) !important; box-shadow: 0 30px 70px -10px rgba(0,0,0,0.8), 0 0 50px rgba(99, 102, 241, 0.15) !important; color: #ffffff !important;';
+
   modal.style.cssText = `
-    background: linear-gradient(145deg, rgba(16, 21, 34, 0.98), rgba(11, 16, 32, 0.98));
-    border: 1px solid rgba(124, 58, 237, 0.35);
-    border-radius: 24px;
-    padding: 30px;
-    width: 460px;
-    max-width: 92vw;
-    box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.8), 0 0 40px rgba(124, 58, 237, 0.2);
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    transform: scale(0.95);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    ${modalBg}
+    border-radius: 20px; padding: 22px 24px !important; width: 460px !important; max-width: 92vw !important;
+    max-height: 86vh !important; overflow-y: auto !important; box-sizing: border-box !important;
+    display: flex !important; flex-direction: column !important; gap: 14px !important;
+    animation: algomindModalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   `;
 
-  
-  const welcomeText = dueCount > 0 
-    ? `Hey ${displayName},\n\nWelcome back.\n\nI checked your revision schedule before you arrived.\n\nYou have ${dueCount} problem${dueCount > 1 ? 's' : ''} waiting for revision today.\n\nLet's spend ${estimatedTime} minutes improving your recall.`
-    : `Welcome back ${displayName}!\n\nNo revisions are due today.\n\nWhy not solve one new problem and keep your streak alive?`;
+  const titleColor = isLight ? '#0f172a' : '#ffffff';
+  const subtitleColor = isLight ? '#475569' : '#94a3b8';
+  const cardBg = isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.04)';
+  const cardBorder = isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.07)';
+
+  const recommendationMarkup = dueCount === 0 
+    ? `
+      <div style="background:${isLight ? '#f0fdf4' : 'rgba(16, 185, 129, 0.08)'}; border:1px solid ${isLight ? '#86efac' : 'rgba(16, 185, 129, 0.25)'}; border-radius:14px; padding:12px 14px; font-size:11px; line-height:1.5; color:${isLight ? '#166534' : '#6ee7b7'};">
+        <div style="font-weight:800; font-size:12px; margin-bottom:2px; display:flex; align-items:center; gap:6px; color:${isLight ? '#15803d' : '#10b981'};">
+          <span>✨</span> You're all caught up!
+        </div>
+        <div style="font-weight:600; opacity:0.9;">Today's recommendation:</div>
+        <ul style="margin:2px 0 0 16px; padding:0; opacity:0.9;">
+          <li>Solve 1 new Medium problem</li>
+          <li>Review yesterday's notes</li>
+          <li>Maintain your ${streak}-day streak</li>
+        </ul>
+      </div>
+    `
+    : `
+      <div style="background:${isLight ? '#fffbeb' : 'rgba(245, 158, 11, 0.08)'}; border:1px solid ${isLight ? '#fde68a' : 'rgba(245, 158, 11, 0.25)'}; border-radius:14px; padding:12px 14px; font-size:11px; line-height:1.5; color:${isLight ? '#92400e' : '#fcd34d'};">
+        <div style="font-weight:800; font-size:12px; margin-bottom:2px; display:flex; align-items:center; gap:6px; color:${isLight ? '#b45309' : '#f59e0b'};">
+          <span>⚠️</span> You have ${dueCount} pending revision${dueCount > 1 ? 's' : ''}
+        </div>
+        <div style="font-weight:600; opacity:0.9;">Completing them today prevents memory decay and locks in pattern logic.</div>
+      </div>
+    `;
 
   modal.innerHTML = `
-    <!-- Header with Avatar -->
-    <div style="display:flex; align-items:center; gap:16px;">
-      <div style="position:relative; width:54px; height:54px; border-radius:18px; background:linear-gradient(135deg, #7c3aed, #4f46e5); display:flex; align-items:center; justify-content:center; animation:algomindPulseGlow 3s infinite;">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2a8 8 0 0 0-8 8v12l3-3 3 3 3-3 3 3-3 3 3V10a8 8 0 0 0-8-8z"></path>
-          <circle cx="9" cy="9" r="1" fill="#fff"></circle>
-          <circle cx="15" cy="9" r="1" fill="#fff"></circle>
-        </svg>
-        <span style="position:absolute; bottom:-2px; right:-2px; width:14px; height:14px; border-radius:50%; background:#10b981; border:2px solid #101522;"></span>
-      </div>
+    <!-- Top Greeting Hero Header -->
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
       <div>
-        <h3 style="margin:0; font-size:16px; font-weight:800; color:#ffffff; letter-spacing:0.3px;">AlgoMind Personal Coach</h3>
-        <p style="margin:2px 0 0 0; font-size:11px; font-weight:600; color:#a78bfa; text-transform:uppercase; tracking-wider:0.5px;">Daily Preparation Briefing</p>
+        <h2 style="margin:0; font-size:18px; font-weight:800; color:${titleColor}; letter-spacing:-0.2px;">
+          👋 ${greetingTime}, ${displayName}
+        </h2>
+        <p style="margin:2px 0 0 0; font-size:11px; font-weight:600; color:${subtitleColor}; line-height:1.4;">
+          Ready for another focused coding session?<br>Your brain is fresh. Let's make today's progress count.
+        </p>
+      </div>
+      <!-- Streak Pill -->
+      <div style="display:flex; align-items:center; gap:5px; background:linear-gradient(135deg, rgba(249,115,22,0.15), rgba(234,88,12,0.08)); border:1px solid rgba(249,115,22,0.3); border-radius:20px; padding:4px 10px; white-space:nowrap;">
+        <span style="font-size:13px;">🔥</span>
+        <span style="font-size:11px; font-weight:800; color:#f97316; font-family:monospace;">${streak} Day Streak</span>
       </div>
     </div>
 
-    <!-- Typewriter Chat Box -->
-    <div style="background:rgba(11, 16, 32, 0.95); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:18px; font-size:13px; line-height:1.6; color:#e2e8f0; font-weight:500; min-height:100px; white-space:pre-wrap;">
-      <span id="algomind-typewriter-target"></span><span class="algomind-welcome-cursor">|</span>
+    <!-- 🎯 Today's Mission Card -->
+    <div style="background:${isLight ? '#f8fafc' : 'rgba(99, 102, 241, 0.06)'}; border:1px solid ${isLight ? '#cbd5e1' : 'rgba(99, 102, 241, 0.2)'}; border-radius:14px; padding:14px 16px; display:flex; flex-direction:column; gap:8px;">
+      <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; color:${isLight ? '#4f46e5' : '#a5b4fc'}; display:flex; align-items:center; justify-content:space-between;">
+        <span>🎯 Today's Mission</span>
+        <span style="font-size:10px; font-weight:600; color:${subtitleColor}; text-transform:none;">Finish by ~${finishTimeStr}</span>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px; font-size:11px; font-weight:700;">
+        <div style="display:flex; align-items:center; gap:6px; color:${isLight ? '#166534' : '#6ee7b7'};">
+          <span>✅</span> Revise: ${dueCount} Problem${dueCount !== 1 ? 's' : ''}
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; color:${isLight ? '#1e40af' : '#60a5fa'};">
+          <span>🆕</span> Learn: 1 New Problem
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; color:${isLight ? '#6b21a8' : '#c084fc'};">
+          <span>🧠</span> Recall Score: ${readiness}%
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; color:${isLight ? '#92400e' : '#fbbf24'};">
+          <span>⏱</span> Est. Time: ${estimatedTime} min
+        </div>
+      </div>
+      <div style="font-size:10px; font-weight:600; font-style:italic; color:${subtitleColor}; border-top:1px dashed ${isLight ? '#cbd5e1' : 'rgba(255,255,255,0.08)'}; padding-top:6px; margin-top:2px;">
+        "One problem today is better than zero tomorrow."
+      </div>
     </div>
 
-    <!-- Summary Metrics Grid (Hidden until typing finishes) -->
-    <div id="algomind-metrics-grid" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; opacity:0; transition:opacity 0.4s ease;">
-      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:12px; text-align:center;">
-        <span style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; display:block; margin-bottom:4px;">Problems Due Today</span>
-        <span style="font-size:18px; font-weight:800; color:${dueCount > 0 ? '#f59e0b' : '#10b981'}; font-family:monospace;">${dueCount}</span>
+    <!-- Smart Recommendation Card -->
+    ${recommendationMarkup}
+
+    <!-- Progress Overview Grid (4 Cards) -->
+    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px;">
+      <!-- Card 1: Revision Due -->
+      <div class="algomind-stat-hover-card" style="background:${cardBg}; border:1px solid ${cardBorder}; border-radius:12px; padding:8px 6px; text-align:center;">
+        <span style="font-size:13px; display:block; margin-bottom:2px;">📚</span>
+        <span style="font-size:9px; font-weight:700; color:${subtitleColor}; text-transform:uppercase; display:block;">Revision</span>
+        <span style="font-size:15px; font-weight:800; color:#10b981; font-family:monospace;">${dueCount}</span>
       </div>
-      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:12px; text-align:center;">
-        <span style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; display:block; margin-bottom:4px;">Est. Study Time</span>
-        <span style="font-size:18px; font-weight:800; color:#a78bfa; font-family:monospace;">${estimatedTime}m</span>
+      <!-- Card 2: Time Needed -->
+      <div class="algomind-stat-hover-card" style="background:${cardBg}; border:1px solid ${cardBorder}; border-radius:12px; padding:8px 6px; text-align:center;">
+        <span style="font-size:13px; display:block; margin-bottom:2px;">⏱</span>
+        <span style="font-size:9px; font-weight:700; color:${subtitleColor}; text-transform:uppercase; display:block;">Time</span>
+        <span style="font-size:15px; font-weight:800; color:#a78bfa; font-family:monospace;">${estimatedTime}m</span>
       </div>
-      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:12px; text-align:center;">
-        <span style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; display:block; margin-bottom:4px;">Current Streak</span>
-        <span style="font-size:18px; font-weight:800; color:#f97316; font-family:monospace;">${streak}d</span>
+      <!-- Card 3: Streak -->
+      <div class="algomind-stat-hover-card" style="background:${cardBg}; border:1px solid ${cardBorder}; border-radius:14px; padding:8px 6px; text-align:center;">
+        <span style="font-size:13px; display:block; margin-bottom:2px;">🔥</span>
+        <span style="font-size:9px; font-weight:700; color:${subtitleColor}; text-transform:uppercase; display:block;">Streak</span>
+        <span style="font-size:15px; font-weight:800; color:#f97316; font-family:monospace;">${streak}d</span>
       </div>
-      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:12px; text-align:center;">
-        <span style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; display:block; margin-bottom:4px;">Readiness</span>
-        <span style="font-size:18px; font-weight:800; color:#10b981; font-family:monospace;">${readiness}%</span>
+      <!-- Card 4: Readiness -->
+      <div class="algomind-stat-hover-card" style="background:${cardBg}; border:1px solid ${cardBorder}; border-radius:12px; padding:8px 6px; text-align:center;">
+        <span style="font-size:13px; display:block; margin-bottom:2px;">🧠</span>
+        <span style="font-size:9px; font-weight:700; color:${subtitleColor}; text-transform:uppercase; display:block;">Readiness</span>
+        <span style="font-size:15px; font-weight:800; color:#10b981; font-family:monospace;">${readiness}%</span>
       </div>
     </div>
 
-    <!-- Action Buttons (Hidden until typing finishes) -->
-    <div id="algomind-action-buttons" style="display:flex; gap:12px; opacity:0; transition:opacity 0.4s ease; margin-top:4px;">
-      <button id="algomind-btn-start-revision" style="flex:1.4; background:linear-gradient(135deg, #7c3aed, #6366f1); color:#ffffff; font-weight:700; border-radius:14px; padding:12px 16px; border:none; cursor:pointer; font-size:13px; box-shadow:0 4px 15px rgba(124, 58, 237, 0.4); transition:all 0.2s ease;">
-        Start Today's Revision →
-      </button>
-      <button id="algomind-btn-maybe-later" style="flex:1; background:rgba(255, 255, 255, 0.06); color:#94a3b8; font-weight:600; border-radius:14px; padding:12px 16px; border:1px solid rgba(255, 255, 255, 0.1); cursor:pointer; font-size:13px; transition:all 0.2s ease;">
-        Maybe Later
-      </button>
+    <!-- CTA Buttons & Footer -->
+    <div style="display:flex; flex-direction:column; gap:6px; margin-top:2px;">
+      <div style="display:flex; gap:8px;">
+        <button id="algomind-btn-start-revision" style="flex:1.6; background:linear-gradient(135deg, #6366f1, #4f46e5); color:#ffffff; font-weight:800; border-radius:12px; padding:10px 16px; border:none; cursor:pointer; font-size:12px; animation:algomindPulseGlow 3s infinite; transition:all 0.2s ease;">
+          🚀 Start Today's Session
+        </button>
+        <button id="algomind-btn-maybe-later" style="flex:1; background:${isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.06)'}; color:${isLight ? '#334155' : '#94a3b8'}; font-weight:700; border-radius:12px; padding:10px 12px; border:1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}; cursor:pointer; font-size:11px; transition:all 0.2s ease;">
+          Maybe Later
+        </button>
+      </div>
+      <div style="text-align:center; font-size:10px; font-weight:600; color:${subtitleColor}; opacity:0.8;">
+        Estimated finish: ${finishTimeStr} · Click Start to open your revision queue
+      </div>
     </div>
   `;
 
   backdrop.appendChild(modal);
   document.body.appendChild(backdrop);
 
-  
   requestAnimationFrame(() => {
     backdrop.style.opacity = '1';
-    modal.style.transform = 'scale(1)';
   });
 
-  
   const closeModal = () => {
     backdrop.style.opacity = '0';
-    modal.style.transform = 'scale(0.95)';
     setTimeout(() => {
       if (backdrop.parentNode) {
         backdrop.parentNode.removeChild(backdrop);
@@ -3164,7 +3237,6 @@ const renderDailyCoachWelcomeModal = ({ displayName, dueCount, estimatedTime, st
     }, 350);
   };
 
-  
   const startBtn = modal.querySelector('#algomind-btn-start-revision');
   const laterBtn = modal.querySelector('#algomind-btn-maybe-later');
 
@@ -3201,28 +3273,6 @@ const renderDailyCoachWelcomeModal = ({ displayName, dueCount, estimatedTime, st
   if (laterBtn) {
     laterBtn.addEventListener('click', closeModal);
   }
-
-  
-  const targetEl = modal.querySelector('#algomind-typewriter-target');
-  const metricsGrid = modal.querySelector('#algomind-metrics-grid');
-  const actionBtns = modal.querySelector('#algomind-action-buttons');
-
-  let charIdx = 0;
-  const typeSpeed = 22; 
-
-  const typeInterval = setInterval(() => {
-    if (charIdx < welcomeText.length) {
-      if (targetEl) {
-        targetEl.textContent = welcomeText.slice(0, charIdx + 1);
-      }
-      charIdx++;
-    } else {
-      clearInterval(typeInterval);
-      
-      if (metricsGrid) metricsGrid.style.opacity = '1';
-      if (actionBtns) actionBtns.style.opacity = '1';
-    }
-  }, typeSpeed);
 };
 
 const init = () => {

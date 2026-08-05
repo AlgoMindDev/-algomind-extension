@@ -176,11 +176,18 @@ const handleSubmissionAccepted = async (submissionData, sendResponse) => {
     const currentQueue = result.revisionQueue || [];
     const token = result.token;
     
+    const existingIndex = currentQueue.findIndex(p => 
+      (p.url && submissionData.url && normalizeUrl(p.url) === normalizeUrl(submissionData.url)) ||
+      (p.title && submissionData.title && p.title.toLowerCase() === submissionData.title.toLowerCase())
+    );
+
+    const existingItem = existingIndex !== -1 ? currentQueue[existingIndex] : null;
+
     let savedItem = {
       ...submissionData,
-      submittedAt: new Date().toISOString(),
-      revisionStep: 1, 
-      nextRevisionDate: getNextRevisionDate(1, submissionData.difficulty),
+      submittedAt: (existingItem && existingItem.submittedAt) ? existingItem.submittedAt : new Date().toISOString(),
+      revisionStep: (existingItem && existingItem.revisionStep) ? existingItem.revisionStep : 1, 
+      nextRevisionDate: (existingItem && existingItem.nextRevisionDate) ? existingItem.nextRevisionDate : getNextRevisionDate(1, submissionData.difficulty),
       synced: false
     };
 
@@ -240,11 +247,6 @@ const handleSubmissionAccepted = async (submissionData, sendResponse) => {
     }
 
     
-    const existingIndex = currentQueue.findIndex(p => 
-      (p.url && submissionData.url && normalizeUrl(p.url) === normalizeUrl(submissionData.url)) ||
-      (p.title && submissionData.title && p.title.toLowerCase() === submissionData.title.toLowerCase())
-    );
-
     let updatedQueue;
     let newCount = currentCount;
     if (existingIndex !== -1) {
