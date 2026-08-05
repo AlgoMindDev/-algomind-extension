@@ -38,66 +38,91 @@ export default function SiteLayout({ children }) {
       <div className="fixed top-20 right-10 w-96 h-96 bg-cyan-500/10 blur-3xl pointer-events-none -z-10" />
 
       {/* Navigation Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-[#070913]/80 border-b border-slate-200/80 dark:border-white/10 transition-all">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-[#070913]/80 border-b border-[#e5e7eb] dark:border-white/10 transition-all">
+        <div className="max-w-[1280px] mx-auto px-6 md:px-8 h-[76px] flex items-center justify-between">
           
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#7c3aed] via-[#6366f1] to-[#3b82f6] flex items-center justify-center text-white shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform">
-              <BrainCircuit size={20} />
+          {/* LEFT: Logo + Wordmark + Tiny Badge */}
+          <Link to="/" className="flex items-center gap-3 group shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#7c3aed] to-[#3b82f6] flex items-center justify-center text-white font-bold shadow-xs group-hover:scale-105 transition-transform duration-200">
+              <BrainCircuit size={18} />
             </div>
-            <span className="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white">
-              Algo<span className="text-[#7c3aed] dark:text-[#a78bfa]">Mind</span>
-            </span>
-            <span className="hidden sm:inline-block text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-[#a78bfa] border border-indigo-500/20">
-              v1.0.2
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-base tracking-tight text-slate-900 dark:text-white">
+                Algo<span className="text-[#7c3aed] dark:text-[#a78bfa]">Mind</span>
+              </span>
+              <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 border border-slate-200/80 dark:border-white/10 select-none">
+                v1.0
+              </span>
+            </div>
           </Link>
 
-          {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-600 dark:text-slate-300">
-            <a href="/#features" className="hover:text-indigo-600 dark:hover:text-white transition-colors">Features</a>
-            <a href="/#how-it-works" className="hover:text-indigo-600 dark:hover:text-white transition-colors">How It Works</a>
-            <Link to="/about" className={`hover:text-indigo-600 dark:hover:text-white transition-colors ${location.pathname === '/about' ? 'text-indigo-600 dark:text-white font-bold' : ''}`}>About</Link>
-            <Link to="/download" className={`hover:text-indigo-600 dark:hover:text-white transition-colors ${location.pathname === '/download' ? 'text-indigo-600 dark:text-white font-bold' : ''}`}>Extension Setup</Link>
-            <Link to="/changelog" className={`hover:text-indigo-600 dark:hover:text-white transition-colors ${location.pathname === '/changelog' ? 'text-indigo-600 dark:text-white font-bold' : ''}`}>Changelog</Link>
-            <Link to="/roadmap" className={`hover:text-indigo-600 dark:hover:text-white transition-colors ${location.pathname === '/roadmap' ? 'text-indigo-600 dark:text-white font-bold' : ''}`}>Roadmap</Link>
-            <Link to="/support" className={`hover:text-indigo-600 dark:hover:text-white transition-colors ${location.pathname === '/support' ? 'text-indigo-600 dark:text-white font-bold' : ''}`}>Support</Link>
+          {/* CENTER: Clean Main Nav (4 Items) */}
+          <nav className="hidden md:flex items-center gap-9 text-xs font-medium text-slate-600 dark:text-slate-300">
+            <a 
+              href="/#features" 
+              className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200 relative py-1"
+            >
+              Features
+            </a>
+            <a 
+              href="/#how-it-works" 
+              className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200 relative py-1"
+            >
+              How it Works
+            </a>
+            <Link 
+              to="/download" 
+              className={`hover:text-slate-900 dark:hover:text-white transition-colors duration-200 relative py-1 ${
+                location.pathname === '/download' ? 'text-slate-900 dark:text-white font-semibold' : ''
+              }`}
+            >
+              Docs
+            </Link>
+            <Link 
+              to="/roadmap" 
+              className={`hover:text-slate-900 dark:hover:text-white transition-colors duration-200 relative py-1 ${
+                location.pathname === '/roadmap' ? 'text-slate-900 dark:text-white font-semibold' : ''
+              }`}
+            >
+              Roadmap
+            </Link>
           </nav>
 
-          {/* Header Action Buttons */}
+          {/* RIGHT: Theme Toggle + Secondary CTA + Primary CTA */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Theme Toggle (Circular) */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-all cursor-pointer"
+              className="w-9 h-9 rounded-full border border-slate-200/80 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 flex items-center justify-center transition-all duration-200 cursor-pointer"
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              {theme === 'dark' ? <Sun size={16} className="text-amber-400" /> : <Moon size={16} className="text-indigo-500" />}
+              {theme === 'dark' ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} className="text-indigo-500" />}
             </button>
 
+            {/* Secondary Button */}
+            <Link
+              to="/download"
+              className="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white border border-slate-200/90 dark:border-white/10 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Install Extension
+            </Link>
+
+            {/* Primary Button */}
             <Link
               to="/dashboard"
-              className="px-4 py-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/10 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all shadow-xs"
+              className="px-4.5 py-2 text-xs font-semibold text-white bg-gradient-to-r from-[#7c3aed] via-[#6366f1] to-[#4f46e5] hover:brightness-110 rounded-full shadow-xs hover:shadow-indigo-500/20 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
             >
               Open Dashboard
             </Link>
-
-            <Link
-              to="/download"
-              className="px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#7c3aed] to-[#6366f1] hover:from-[#6551e3] hover:to-[#4f46e5] rounded-xl shadow-md shadow-indigo-500/20 flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-            >
-              <Code2 size={14} />
-              <span>Extension Setup</span>
-            </Link>
           </div>
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile Navigation Toggle */}
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300"
+              className="w-8 h-8 rounded-full border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 flex items-center justify-center"
             >
-              {theme === 'dark' ? <Sun size={16} className="text-amber-400" /> : <Moon size={16} className="text-indigo-500" />}
+              {theme === 'dark' ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} className="text-indigo-500" />}
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -105,7 +130,7 @@ export default function SiteLayout({ children }) {
               aria-label="Toggle Navigation Menu"
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
@@ -117,18 +142,15 @@ export default function SiteLayout({ children }) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-b border-slate-200 dark:border-white/10 bg-white/95 dark:bg-[#070913]/95 backdrop-blur-2xl px-6 py-5 space-y-4 text-sm font-semibold"
+              className="md:hidden border-b border-slate-200 dark:border-white/10 bg-white/95 dark:bg-[#070913]/95 backdrop-blur-2xl px-6 py-5 space-y-4 text-xs font-medium"
             >
               <a href="/#features" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">Features</a>
-              <a href="/#how-it-works" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">How It Works</a>
-              <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">About</Link>
-              <Link to="/download" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">Extension Setup</Link>
-              <Link to="/changelog" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">Changelog</Link>
+              <a href="/#how-it-works" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">How it Works</a>
+              <Link to="/download" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">Docs</Link>
               <Link to="/roadmap" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">Roadmap</Link>
-              <Link to="/support" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">Support & FAQ</Link>
               <div className="pt-3 border-t border-slate-200 dark:border-white/10 flex flex-col gap-2.5">
-                <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-2.5 text-xs font-bold text-slate-800 dark:text-white border border-slate-200 dark:border-white/10 rounded-xl">Open Dashboard</Link>
-                <Link to="/download" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-2.5 text-xs font-bold text-white bg-indigo-600 rounded-xl">Extension Setup</Link>
+                <Link to="/download" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-2.5 text-xs font-semibold text-slate-800 dark:text-white border border-slate-200 dark:border-white/10 rounded-full">Install Extension</Link>
+                <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-2.5 text-xs font-semibold text-white bg-gradient-to-r from-[#7c3aed] to-[#6366f1] rounded-full">Open Dashboard</Link>
               </div>
             </motion.div>
           )}
