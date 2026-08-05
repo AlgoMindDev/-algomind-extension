@@ -38,79 +38,91 @@ export default function SiteLayout({ children }) {
       <div className="fixed top-20 right-10 w-96 h-96 bg-cyan-500/10 blur-3xl pointer-events-none -z-10" />
 
       {/* Navigation Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-[#070913]/80 border-b border-[#e5e7eb] dark:border-white/10 transition-all">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-[#070913]/80 border-b border-[#E5E7EB] dark:border-white/10 transition-all">
         <div className="max-w-[1280px] mx-auto px-6 md:px-8 h-[76px] flex items-center justify-between">
           
-          {/* LEFT: Logo + Wordmark + Tiny Badge */}
+          {/* LEFT: Logo + Wordmark + Tiny Pill Badge */}
           <Link to="/" className="flex items-center gap-3 group shrink-0">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#7c3aed] to-[#3b82f6] flex items-center justify-center text-white font-bold shadow-xs group-hover:scale-105 transition-transform duration-200">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#6D5EF8] to-[#3B82F6] flex items-center justify-center text-white font-bold shadow-xs group-hover:scale-[1.03] transition-transform duration-200">
               <BrainCircuit size={18} />
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-base tracking-tight text-slate-900 dark:text-white">
-                Algo<span className="text-[#7c3aed] dark:text-[#a78bfa]">Mind</span>
+              <span className="font-bold text-base tracking-tight text-[#111827] dark:text-white">
+                Algo<span className="text-[#6D5EF8] dark:text-[#a78bfa]">Mind</span>
               </span>
-              <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 border border-slate-200/80 dark:border-white/10 select-none">
+              <span className="h-[22px] px-2.5 rounded-full bg-[#F3F4F6] dark:bg-white/5 text-[#6B7280] dark:text-slate-400 border border-[#E5E7EB] dark:border-white/10 text-[12px] font-mono font-medium flex items-center justify-center select-none">
                 v1.0
               </span>
             </div>
           </Link>
 
-          {/* CENTER: Clean Main Nav (4 Items) */}
-          <nav className="hidden md:flex items-center gap-9 text-xs font-medium text-slate-600 dark:text-slate-300">
+          {/* CENTER: Clean Navigation Links (16px, 500 weight, 36-40px spacing with animated underline) */}
+          <nav className="hidden md:flex items-center gap-9">
             <a 
               href="/#features" 
-              className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200 relative py-1"
+              className="group relative text-[15px] font-medium text-[#6B7280] dark:text-slate-300 hover:text-[#111827] dark:hover:text-white transition-colors duration-180 py-1"
             >
-              Features
+              <span>Features</span>
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-[#6D5EF8] rounded-full group-hover:w-full transition-all duration-200 ease-out" />
             </a>
             <a 
               href="/#how-it-works" 
-              className="hover:text-slate-900 dark:hover:text-white transition-colors duration-200 relative py-1"
+              className="group relative text-[15px] font-medium text-[#6B7280] dark:text-slate-300 hover:text-[#111827] dark:hover:text-white transition-colors duration-180 py-1"
             >
-              How it Works
+              <span>How it Works</span>
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-[#6D5EF8] rounded-full group-hover:w-full transition-all duration-200 ease-out" />
             </a>
             <Link 
               to="/download" 
-              className={`hover:text-slate-900 dark:hover:text-white transition-colors duration-200 relative py-1 ${
-                location.pathname === '/download' ? 'text-slate-900 dark:text-white font-semibold' : ''
+              className={`group relative text-[15px] font-medium text-[#6B7280] dark:text-slate-300 hover:text-[#111827] dark:hover:text-white transition-colors duration-180 py-1 ${
+                location.pathname === '/download' ? '!text-[#6D5EF8] dark:!text-[#a78bfa] font-semibold' : ''
               }`}
             >
-              Docs
+              <span>Docs</span>
+              <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-[#6D5EF8] rounded-full transition-all duration-200 ease-out ${
+                location.pathname === '/download' ? 'w-full' : 'w-0 group-hover:w-full'
+              }`} />
             </Link>
             <Link 
               to="/roadmap" 
-              className={`hover:text-slate-900 dark:hover:text-white transition-colors duration-200 relative py-1 ${
-                location.pathname === '/roadmap' ? 'text-slate-900 dark:text-white font-semibold' : ''
+              className={`group relative text-[15px] font-medium text-[#6B7280] dark:text-slate-300 hover:text-[#111827] dark:hover:text-white transition-colors duration-180 py-1 ${
+                location.pathname === '/roadmap' ? '!text-[#6D5EF8] dark:!text-[#a78bfa] font-semibold' : ''
               }`}
             >
-              Roadmap
+              <span>Roadmap</span>
+              <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-[#6D5EF8] rounded-full transition-all duration-200 ease-out ${
+                location.pathname === '/roadmap' ? 'w-full' : 'w-0 group-hover:w-full'
+              }`} />
             </Link>
           </nav>
 
           {/* RIGHT: Theme Toggle + Secondary CTA + Primary CTA */}
           <div className="hidden md:flex items-center gap-3">
-            {/* Theme Toggle (Circular) */}
+            {/* 40px Circular Theme Toggle with 15deg rotation */}
             <button
               onClick={toggleTheme}
-              className="w-9 h-9 rounded-full border border-slate-200/80 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 flex items-center justify-center transition-all duration-200 cursor-pointer"
+              className="w-10 h-10 rounded-full border border-[#E5E7EB] dark:border-white/10 bg-white dark:bg-white/5 text-[#111827] dark:text-white hover:bg-[#F5F3FF] dark:hover:bg-purple-950/30 hover:border-[#6D5EF8]/30 flex items-center justify-center transition-all duration-200 group cursor-pointer"
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              {theme === 'dark' ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} className="text-indigo-500" />}
+              {theme === 'dark' ? (
+                <Sun size={16} className="text-amber-400 group-hover:rotate-[15deg] transition-transform duration-200" />
+              ) : (
+                <Moon size={16} className="text-[#6D5EF8] group-hover:rotate-[15deg] transition-transform duration-200" />
+              )}
             </button>
 
-            {/* Secondary Button */}
+            {/* Secondary CTA: Install Extension */}
             <Link
               to="/download"
-              className="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white border border-slate-200/90 dark:border-white/10 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="h-[44px] px-5 text-sm font-semibold text-[#111827] dark:text-white bg-white dark:bg-white/5 border border-[#E5E7EB] dark:border-white/10 rounded-[12px] shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] dark:shadow-none hover:border-[#6D5EF8] dark:hover:border-[#6D5EF8] hover:bg-[#F5F3FF] dark:hover:bg-[#6D5EF8]/10 hover:-translate-y-[1px] active:translate-y-0 transition-all duration-200 ease-out flex items-center justify-center"
             >
               Install Extension
             </Link>
 
-            {/* Primary Button */}
+            {/* Primary CTA: Open Dashboard */}
             <Link
               to="/dashboard"
-              className="px-4.5 py-2 text-xs font-semibold text-white bg-gradient-to-r from-[#7c3aed] via-[#6366f1] to-[#4f46e5] hover:brightness-110 rounded-full shadow-xs hover:shadow-indigo-500/20 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              className="h-[44px] px-6 text-sm font-semibold text-white bg-gradient-to-b from-[#7C6EFC] via-[#6D5EF8] to-[#5B4BE8] hover:from-[#887AFE] hover:to-[#5040DF] rounded-[12px] shadow-[0_6px_16px_rgba(109,94,248,0.25),inset_0_1px_0_rgba(255,255,255,0.25)] hover:shadow-[0_8px_24px_rgba(109,94,248,0.35),inset_0_1px_0_rgba(255,255,255,0.3)] hover:-translate-y-[1px] hover:scale-[1.02] active:translate-y-0 active:scale-[0.98] transition-all duration-200 ease-out flex items-center justify-center cursor-pointer"
             >
               Open Dashboard
             </Link>
@@ -120,13 +132,13 @@ export default function SiteLayout({ children }) {
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={toggleTheme}
-              className="w-8 h-8 rounded-full border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 flex items-center justify-center"
+              className="w-9 h-9 rounded-full border border-[#E5E7EB] dark:border-white/10 text-[#111827] dark:text-white flex items-center justify-center"
             >
-              {theme === 'dark' ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} className="text-indigo-500" />}
+              {theme === 'dark' ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} className="text-[#6D5EF8]" />}
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+              className="p-2 text-[#111827] dark:text-white"
               aria-label="Toggle Navigation Menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -142,15 +154,15 @@ export default function SiteLayout({ children }) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-b border-slate-200 dark:border-white/10 bg-white/95 dark:bg-[#070913]/95 backdrop-blur-2xl px-6 py-5 space-y-4 text-xs font-medium"
+              className="md:hidden border-b border-[#E5E7EB] dark:border-white/10 bg-white/95 dark:bg-[#070913]/95 backdrop-blur-2xl px-6 py-5 space-y-4 text-sm font-medium"
             >
-              <a href="/#features" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">Features</a>
-              <a href="/#how-it-works" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">How it Works</a>
-              <Link to="/download" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">Docs</Link>
-              <Link to="/roadmap" onClick={() => setMobileMenuOpen(false)} className="block text-slate-700 dark:text-slate-200">Roadmap</Link>
-              <div className="pt-3 border-t border-slate-200 dark:border-white/10 flex flex-col gap-2.5">
-                <Link to="/download" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-2.5 text-xs font-semibold text-slate-800 dark:text-white border border-slate-200 dark:border-white/10 rounded-full">Install Extension</Link>
-                <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-2.5 text-xs font-semibold text-white bg-gradient-to-r from-[#7c3aed] to-[#6366f1] rounded-full">Open Dashboard</Link>
+              <a href="/#features" onClick={() => setMobileMenuOpen(false)} className="block text-[#111827] dark:text-slate-200">Features</a>
+              <a href="/#how-it-works" onClick={() => setMobileMenuOpen(false)} className="block text-[#111827] dark:text-slate-200">How it Works</a>
+              <Link to="/download" onClick={() => setMobileMenuOpen(false)} className="block text-[#111827] dark:text-slate-200">Docs</Link>
+              <Link to="/roadmap" onClick={() => setMobileMenuOpen(false)} className="block text-[#111827] dark:text-slate-200">Roadmap</Link>
+              <div className="pt-3 border-t border-[#E5E7EB] dark:border-white/10 flex flex-col gap-2.5">
+                <Link to="/download" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-3 text-sm font-semibold text-[#111827] dark:text-white border border-[#E5E7EB] dark:border-white/10 rounded-[12px]">Install Extension</Link>
+                <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-3 text-sm font-semibold text-white bg-gradient-to-b from-[#7C6EFC] via-[#6D5EF8] to-[#5B4BE8] rounded-[12px]">Open Dashboard</Link>
               </div>
             </motion.div>
           )}
