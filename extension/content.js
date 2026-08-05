@@ -2802,13 +2802,15 @@ const attachEventMonitors = () => {
     const isClickable = target.tagName === 'BUTTON' || target.tagName === 'A' || target.tagName === 'SPAN' || target.tagName === 'DIV' || target.getAttribute('role') === 'button';
     
     const matchesHintSelector = config && config.hintBtn ? !!target.closest(config.hintBtn) : false;
-    if (isClickable && (
+    const isHintClick = isClickable && (
       matchesHintSelector || 
       text.includes('hint') ||
       target.closest('[class*="hint"]') ||
       target.closest('[id*="hint"]') ||
       target.closest('[data-cy*="hint"]')
-    )) {
+    );
+
+    if (isHintClick) {
       if (!hintsUsed) {
         log('[AlgoMind Scraper] Hint usage detected!');
         hintsUsed = true;
@@ -2830,9 +2832,8 @@ const attachEventMonitors = () => {
       }
     }
 
-    
     const matchesSolutionSelector = config && config.solutionBtn ? !!target.closest(config.solutionBtn) : false;
-    if (isClickable && (
+    const isSolutionClick = isClickable && !isHintClick && (
       matchesSolutionSelector || 
       text === 'editorial' || 
       text === 'solution' || 
@@ -2846,7 +2847,9 @@ const attachEventMonitors = () => {
       text.includes('editorial-btn') ||
       target.closest('[class*="editorial"]') ||
       target.closest('[class*="solution"]')
-    )) {
+    );
+
+    if (isSolutionClick) {
       if (!solutionClicked) {
         log('[AlgoMind Scraper] Solution lookup detected!');
         solutionClicked = true;
