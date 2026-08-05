@@ -2,6 +2,8 @@ node_modules/
 **/node_modules/
 .env
 .env.local
+.env.*
+!.env.example
 **/dist/
 **/build/
 .DS_Store
@@ -9,3 +11,4 @@ node_modules/
 *.zip
 .vite/
 **/.vite/
+.cache
