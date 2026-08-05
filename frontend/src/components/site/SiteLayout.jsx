@@ -141,13 +141,13 @@ export default function SiteLayout({ children }) {
       </main>
 
       {/* Master Site Footer */}
-      <footer className="border-t border-slate-200/80 dark:border-white/10 bg-white dark:bg-[#04060d] text-slate-600 dark:text-slate-400 py-16 text-xs mt-20 relative z-10">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-5 gap-10">
+      <footer className="border-t border-[#e5e7eb] dark:border-white/10 bg-white dark:bg-[#04060d] text-slate-600 dark:text-slate-400 py-14 text-xs mt-20 relative z-10 font-sans">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-10 lg:gap-12">
           
-          {/* Brand Col */}
-          <div className="col-span-2 space-y-4">
-            <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#7c3aed] to-[#3b82f6] flex items-center justify-center text-white font-bold">
+          {/* LEFT SECTION (Brand & Badges) */}
+          <div className="sm:col-span-2 md:col-span-2 space-y-4">
+            <Link to="/" className="inline-flex items-center gap-2.5 group">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#7c3aed] to-[#3b82f6] flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-105 transition-transform">
                 <BrainCircuit size={18} />
               </div>
               <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">
@@ -155,61 +155,71 @@ export default function SiteLayout({ children }) {
               </span>
             </Link>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm font-medium">
-              The AI-powered DSA revision memory engine. Automatically track accepted submissions, prevent memory decay with active recall, and conquer tech interviews.
+              AI-powered DSA revision engine that helps developers remember more with active recall and spaced repetition.
             </p>
-            <div className="flex flex-wrap items-center gap-2 text-slate-400">
-              <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-[#a78bfa] border border-indigo-500/20 font-bold">
+            <div className="flex flex-wrap items-center gap-2 text-slate-400 pt-1">
+              <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 font-semibold">
                 Manifest V3 Compatible
               </span>
-              <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-bold">
-                ● Live on Chrome Web Store
+              <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-[#a78bfa] border border-indigo-500/20 font-semibold">
+                Available on Chrome Web Store
               </span>
             </div>
           </div>
 
-          {/* Product Links */}
+          {/* COLUMN 1: Product */}
           <div className="space-y-3">
             <h5 className="text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider">Product</h5>
-            <ul className="space-y-2 font-medium">
-              <li><Link to="/download" className="hover:text-indigo-600 dark:hover:text-white transition-colors">Chrome Extension</Link></li>
-              <li><Link to="/dashboard" className="hover:text-indigo-600 dark:hover:text-white transition-colors">Web Dashboard</Link></li>
-              <li><Link to="/about" className="hover:text-indigo-600 dark:hover:text-white transition-colors">About AlgoMind</Link></li>
-              <li><a href="/#features" className="hover:text-indigo-600 dark:hover:text-white transition-colors">AI Coach & Active Recall</a></li>
+            <ul className="space-y-2.5 font-medium">
+              <li><Link to="/download" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Chrome Extension</Link></li>
+              <li><Link to="/dashboard" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Web Dashboard</Link></li>
+              <li><a href="/#features" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">AI Coach</a></li>
+              <li><a href="/#features" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Active Recall</a></li>
+              <li><Link to="/roadmap" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Roadmap</Link></li>
             </ul>
           </div>
 
-          {/* Resources & Support */}
+          {/* COLUMN 2: Resources */}
           <div className="space-y-3">
             <h5 className="text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider">Resources</h5>
-            <ul className="space-y-2 font-medium">
-              <li><Link to="/changelog" className="hover:text-indigo-600 dark:hover:text-white transition-colors">Changelog</Link></li>
-              <li><Link to="/roadmap" className="hover:text-indigo-600 dark:hover:text-white transition-colors">Product Roadmap</Link></li>
-              <li><Link to="/support" className="hover:text-indigo-600 dark:hover:text-white transition-colors">Support & FAQ</Link></li>
-              <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 dark:hover:text-white transition-colors flex items-center gap-1"><Github size={12} /> GitHub Repository</a></li>
-              <li><a href="mailto:algomind.help@gmail.com" className="hover:text-indigo-600 dark:hover:text-white transition-colors flex items-center gap-1"><Mail size={12} /> algomind.help@gmail.com</a></li>
+            <ul className="space-y-2.5 font-medium">
+              <li><Link to="/download" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Documentation</Link></li>
+              <li><Link to="/changelog" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Changelog</Link></li>
+              <li><Link to="/support" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">FAQ</Link></li>
+              <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">GitHub</a></li>
             </ul>
           </div>
 
-          {/* Legal Links */}
+          {/* COLUMN 3: Company */}
           <div className="space-y-3">
-            <h5 className="text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider">Legal & Privacy</h5>
-            <ul className="space-y-2 font-medium">
-              <li><Link to="/privacy" className="hover:text-indigo-600 dark:hover:text-white transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="hover:text-indigo-600 dark:hover:text-white transition-colors">Terms of Service</Link></li>
-              <li><Link to="/data-deletion" className="hover:text-indigo-600 dark:hover:text-white transition-colors">Data Deletion</Link></li>
+            <h5 className="text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider">Company</h5>
+            <ul className="space-y-2.5 font-medium">
+              <li><Link to="/about" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">About</Link></li>
+              <li><Link to="/support" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Contact</Link></li>
+              <li><Link to="/support" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Feedback</Link></li>
+            </ul>
+          </div>
+
+          {/* COLUMN 4: Legal */}
+          <div className="space-y-3">
+            <h5 className="text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider">Legal</h5>
+            <ul className="space-y-2.5 font-medium">
+              <li><Link to="/privacy" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Terms of Service</Link></li>
+              <li><Link to="/data-deletion" className="hover:text-slate-900 dark:hover:text-white transition-colors duration-150">Data Deletion</Link></li>
             </ul>
           </div>
 
         </div>
 
-        {/* Bottom copyright line */}
-        <div className="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-slate-200/60 dark:border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-          <p>© {new Date().getFullYear()} AlgoMind Inc. All rights reserved.</p>
-          <p className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-200 text-xs">
-            <span>Created with</span>
-            <Heart size={14} className="text-rose-500 fill-rose-500 animate-pulse" />
-            <span>by</span>
-            <span className="text-[#7c3aed] dark:text-[#a78bfa] font-black">Ambuj Rai</span>
+        {/* BOTTOM BAR */}
+        <div className="max-w-7xl mx-auto px-6 mt-12 pt-6 border-t border-[#e5e7eb] dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+          <p>© 2026 AlgoMind. All rights reserved.</p>
+          <p className="text-slate-600 dark:text-slate-300 font-semibold">Built with care for developers.</p>
+          <p className="flex items-center gap-1 font-mono text-slate-500 dark:text-slate-400">
+            <span>Version v1.0.2</span>
+            <span>•</span>
+            <span>Designed & Developed by <strong className="text-slate-800 dark:text-slate-200 font-bold">Ambuj Rai</strong></span>
           </p>
         </div>
       </footer>
