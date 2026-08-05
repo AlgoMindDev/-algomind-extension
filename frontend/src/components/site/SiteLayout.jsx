@@ -50,7 +50,7 @@ export default function SiteLayout({ children }) {
               Algo<span className="text-[#7c3aed] dark:text-[#a78bfa]">Mind</span>
             </span>
             <span className="hidden sm:inline-block text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-[#a78bfa] border border-indigo-500/20">
-              v1.0 Beta
+              v1.0.2
             </span>
           </Link>
 

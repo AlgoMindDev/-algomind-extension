@@ -6,10 +6,23 @@ import SiteLayout from '../../components/site/SiteLayout.jsx';
 export default function Changelog() {
   const releases = [
     {
+      version: 'v1.0.2',
+      tag: 'Linear Daily Briefing & Responsive Upgrade',
+      date: 'August 2026',
+      status: 'Current Version',
+      features: [
+        'Redesigned Daily Preparation Briefing modal (Linear/Raycast aesthetic with Today\'s Mission & Smart Recommendations)',
+        'Dynamic viewport scaling (max-height 86vh) for laptop screens (1366x768, 1440x900) without vertical clipping',
+        'Top 3 highest forget-risk problem selection engine in Focus Mode with animated loading indicator',
+        'High-contrast Day Mode (Light Theme) styling for concept notes, alert boxes, and category badges',
+        'Preserved spaced repetition schedule on intuition note updates without resetting step count'
+      ]
+    },
+    {
       version: 'v1.0.1',
       tag: 'Official Web Store Launch',
       date: 'August 2026',
-      status: 'Current Version',
+      status: 'Stable Release',
       features: [
         'Published on official Google Chrome Web Store for public distribution',
         'One-click Web Store installation & automatic extension updates',

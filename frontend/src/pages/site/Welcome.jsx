@@ -66,7 +66,7 @@ export default function Welcome() {
           <div className="p-4 bg-white dark:bg-[#101522] border border-slate-200 dark:border-white/10 rounded-2xl text-center space-y-1 shadow-sm">
             <span className="text-[9px] font-mono text-slate-400 uppercase font-bold block">Version</span>
             <span className="text-xs font-bold text-indigo-600 dark:text-[#a78bfa] font-mono">
-              v1.0.0
+              v1.0.2
             </span>
           </div>
 
